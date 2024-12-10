@@ -1,0 +1,3 @@
+kivy
+pyqt5
+ipaddress
