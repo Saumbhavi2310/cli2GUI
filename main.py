@@ -5,7 +5,7 @@ from kivy.uix.label import Label
 from kivy.core.window import Window
 import subprocess
 import sys
-import os
+from pathlib import Path
 
 class MenuLauncher(App):
     def build(self):
@@ -28,23 +28,23 @@ class MenuLauncher(App):
         self.tools = [
             {
                 'name': 'Hping3',
-                'script': './hping3-GUI/hping3GUI.py'
+                'script': Path('hping3GUI/hping3GUI.py')
             },
             {
                 'name': 'Nikto',
-                'script': './nikto-GUI/niktoGUI.py'
+                'script': Path('niktoGUI/niktoGUI.py')
             },
             {
-                'name': 'Tool 3',
-                'script': 'path/to/tool3.py'
+                'name': 'IDS',
+                'script': Path('IDS/IDS.py')
             },
             {
                 'name': 'Tool 4',
-                'script': 'path/to/tool4.py'
+                'script': Path('path/to/tool4.py')
             },
             {
                 'name': 'Tool 5',
-                'script': 'path/to/tool5.py'
+                'script': Path('path/to/tool5.py')
             }
         ]
         
@@ -84,3 +84,4 @@ class MenuLauncher(App):
 
 if __name__ == '__main__':
     MenuLauncher().run()
+    

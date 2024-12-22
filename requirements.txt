@@ -1,3 +1,9 @@
 kivy
 pyqt5
 ipaddress
+scapy 
+matplotlib 
+numpy 
+pandas
+seaborn
+
