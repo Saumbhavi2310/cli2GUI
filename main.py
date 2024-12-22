@@ -3,11 +3,12 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.core.window import Window
+from kivy.uix.popup import Popup
 import subprocess
 import sys
 from pathlib import Path
 
-class MenuLauncher(App):
+class cli2GUI(App):
     def build(self):
         # Set window size
         Window.size = (400, 500)
@@ -31,20 +32,20 @@ class MenuLauncher(App):
                 'script': Path('hping3GUI/hping3GUI.py')
             },
             {
-                'name': 'Nikto',
-                'script': Path('niktoGUI/niktoGUI.py')
-            },
-            {
                 'name': 'IDS',
                 'script': Path('IDS/IDS.py')
             },
             {
-                'name': 'Tool 4',
-                'script': Path('path/to/tool4.py')
+                'name': 'wsgi',
+                'script': Path('wsgi/wsgi.py')
             },
             {
-                'name': 'Tool 5',
-                'script': Path('path/to/tool5.py')
+                'name': 'Medusa',
+                'script': Path('MedusaGUI/medusaGUI.py')
+            },
+            {
+                'name': 'Nikto',
+                'script': Path('niktoGUI/niktoGUI.py')
             }
         ]
         
@@ -73,6 +74,10 @@ class MenuLauncher(App):
     
     def launch_tool(self, script_path):
         try:
+            if not script_path.exists():
+                self.show_error_popup("Error 404: Tool Not Found")
+                return
+            
             # Get the Python executable path
             python_exe = sys.executable
             
@@ -81,7 +86,15 @@ class MenuLauncher(App):
             
         except Exception as e:
             print(f"Error launching tool: {str(e)}")
+    
+    def show_error_popup(self, message):
+        popup = Popup(
+            title='Error',
+            content=Label(text=message),
+            size_hint=(None, None),
+            size=(300, 200)
+        )
+        popup.open()
 
 if __name__ == '__main__':
-    MenuLauncher().run()
-    
+    cli2GUI().run()
