@@ -64,7 +64,7 @@ We have several plans to enhance cli2GUI in the future:
 - [ ] Add support for more CLI tools
 - [ ] Provide detailed documentation for each supported tool
 
-## C ontributing
+## Contributing
 We welcome contributions from the community! To contribute to cli2GUI, follow these steps:
 
 1. Fork the repository.
