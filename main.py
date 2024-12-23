@@ -36,8 +36,8 @@ class cli2GUI(App):
                 'script': Path('IDS/IDS.py')
             },
             {
-                'name': 'wsgi',
-                'script': Path('wsgi/wsgi.py')
+                'name': 'HashCrack',
+                'script': Path('hashcrackGUI/hashcrackGUI.py')
             },
             {
                 'name': 'Medusa',
