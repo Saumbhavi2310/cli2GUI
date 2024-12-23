@@ -62,6 +62,7 @@ The project directory is structured as follows:
 We have several plans to enhance cli2GUI in the future:
 - [x] Improve the user interface for better usability
 - [ ] Add support for more CLI tools
+- [ ] Add a search feature
 - [ ] Provide detailed documentation for each supported tool
 
 ## Contributing
