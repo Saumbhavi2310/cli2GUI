@@ -6,7 +6,7 @@ cli2GUI is an open-source project aimed at providing graphical user interfaces (
 The following CLI tools have GUIs provided in this repository:
 - hping3
 - nikto
-- wsgi
+- HashCrack
 - Medusa
 - IDS
 
@@ -54,7 +54,7 @@ The project directory is structured as follows:
     ├── niktoGUI/
     ├── MedusaGUI/
     ├── IDS/
-    ├── wsgi/
+    ├── hashcrackGUI/
     └── main.py
 ```
 
