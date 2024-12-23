@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import threading
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QTextEdit, QComboBox, QCheckBox, QScrollArea
 
 class NiktoGUIApp(QWidget):
@@ -160,26 +161,38 @@ class NiktoGUIApp(QWidget):
         if timeout:
             nikto_cmd.extend(['-timeout', timeout])
         
-        try:
-            # Run Nikto scan
-            result = subprocess.run(
-                nikto_cmd, 
-                capture_output=True, 
-                text=True, 
-                timeout=300  # 5-minute timeout
-            )
-            
-            # Display results
-            self.results_text.setText(result.stdout or result.stderr)
+        def run_scan():
+            try:
+                # Run Nikto scan
+                process = subprocess.Popen(
+                    nikto_cmd, 
+                    stdout=subprocess.PIPE, 
+                    stderr=subprocess.PIPE, 
+                    text=True
+                )
+                
+                # Live update the output box
+                for line in iter(process.stdout.readline, ''):
+                    self.results_text.append(line)
+                
+                process.stdout.close()
+                process.wait()
+                
+                # Display any errors
+                if process.returncode != 0:
+                    self.results_text.append(process.stderr.read())
+                
+            except subprocess.TimeoutExpired:
+                self.results_text.setText('Scan timed out. Target may be unresponsive.')
+            except PermissionError:
+                self.results_text.setText('Error: Nikto requires root/sudo privileges.')
+            except FileNotFoundError:
+                self.results_text.setText('Error: Nikto is not installed. Please install using:\nsudo apt-get install nikto')
+            except Exception as e:
+                self.results_text.setText(f'Error: {str(e)}')
         
-        except subprocess.TimeoutExpired:
-            self.results_text.setText('Scan timed out. Target may be unresponsive.')
-        except PermissionError:
-            self.results_text.setText('Error: Nikto requires root/sudo privileges.')
-        except FileNotFoundError:
-            self.results_text.setText('Error: Nikto is not installed. Please install using:\nsudo apt-get install nikto')
-        except Exception as e:
-            self.results_text.setText(f'Error: {str(e)}')
+        # Run the scan in a separate thread to avoid blocking the UI
+        threading.Thread(target=run_scan).start()
 
 def main():
     app = QApplication(sys.argv)
@@ -189,3 +202,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# Test website
+# https://www.hackthebox.com/
